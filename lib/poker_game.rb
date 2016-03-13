@@ -1,5 +1,5 @@
-class Poker
-  attr_reader :deck
+class PokerGame
+  attr_reader :deck, :players
 
   def initialize(players)
     @deck = Deck.new
