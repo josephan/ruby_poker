@@ -11,9 +11,14 @@ class PokerGameTest < Minitest::Test
   end
 
   def test_uniqueness_of_cards_in_deck
-    byebug
   end
 
   def test_each_player_starts_with_two_cards
+    assert_equal 2, PokerGame.new(5).players.first.cards.size
+  end
+
+  def test_deck_gets_smaller
+    skip
+    assert_equal 42, PokerGame.new(5).deck.size
   end
 end

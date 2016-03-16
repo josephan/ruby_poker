@@ -1,18 +1,50 @@
 class PokerGame
-  attr_reader :deck, :players
+  attr_reader :deck, :players, :communal_cards
 
-  def initialize(players)
+  def initialize(number_of_players, options = {})
     @deck = Deck.new
+    @players = assemble_players(number_of_players)
+    deal_cards
+  end
+
+  private
+
+  def assemble_players(number_of_players)
+    players = []
+    number_of_players.times do |n|
+      players << Player.new("Player #{n+1}", )
+    end
+    players
+  end
+
+  def deal_cards
+    2.times do
+      @players.each do |player|
+        player.cards << @deck.pop
+      end
+    end
+  end
+
+  def burn_card
+    @deck.pop
+  end
+
+  def the_flop
+
   end
 end
 
 class Deck
   def initialize
-    @cards = assemble_deck
+    @cards = assemble_deck.shuffle
   end
 
   def size
     @cards.length
+  end
+
+  def pop
+    @cards.pop
   end
 
   private
@@ -44,8 +76,14 @@ class Card
   end
 end
 
-class Players
-  def initialize(cards)
-  end
+class Player
+  attr_accessor :cards
 
+  def initialize(name)
+    @name = name
+    @cards = []
+  end
+end
+
+module Ranking
 end
