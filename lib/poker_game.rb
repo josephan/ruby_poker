@@ -1,10 +1,32 @@
+module Ranking
+  def puts_communals
+    @communal_cards
+  end
+end
+
 class PokerGame
   attr_reader :deck, :players, :communal_cards
+
+  include Ranking
 
   def initialize(number_of_players, options = {})
     @deck = Deck.new
     @players = assemble_players(number_of_players)
+    @communal_cards = []
+    puts "Dealing cards"
     deal_cards
+    puts "Burning card"
+    burn_card
+    puts "The Flop"
+    the_flop
+    puts "Burning Card"
+    burn_card
+    puts "The Turn"
+    reveal_card
+    puts "Burning Card"
+    burn_card
+    puts "The River"
+    reveal_card
   end
 
   private
@@ -30,7 +52,13 @@ class PokerGame
   end
 
   def the_flop
+    3.times do
+      reveal_card
+    end
+  end
 
+  def reveal_card
+    @communal_cards << @deck.pop
   end
 end
 
@@ -83,7 +111,4 @@ class Player
     @name = name
     @cards = []
   end
-end
-
-module Ranking
 end

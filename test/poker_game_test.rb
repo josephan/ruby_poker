@@ -3,6 +3,7 @@ require_relative '../lib/poker_game'
 
 class PokerGameTest < Minitest::Test
   def test_number_of_cards_in_deck
+    skip
     assert_equal 52, PokerGame.new(5).deck.size
   end
 
