@@ -30,7 +30,7 @@ class Poker::RoundTest < Minitest::Test
 end
 
 class Poker::CardTest < Minitest::Test
-  def test
+  def setup
     @high_card = Poker::Card.new(:ace, :spades)
     @low_card = Poker::Card.new(2, :hearts)
   end
@@ -49,7 +49,7 @@ class Poker::CardTest < Minitest::Test
   end
 
   def test_card_less_than
-    assert_equal true, @high_card < @low_card
-    assert_equal false, @low_card < @high_card
+    assert_equal false, @high_card < @low_card
+    assert_equal true, @low_card < @high_card
   end
 end

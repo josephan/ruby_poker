@@ -2,6 +2,19 @@ module Poker
   SUITS = [:spades, :hearts, :diamonds, :clubs]
   NUMBERS = [2, 3, 4, 5, 6, 7, 8, 9, 10, :jack, :queen, :king, :ace]
 
+  def self.royal_flush(cards)
+
+  end
+
+  def self.common_suit(cards)
+
+  end
+
+  def self.same_suit?(cards)
+    suit = cards[0].suit
+    cards.all? { |card| card.suit == suit } ? suit : false
+  end
+
   class Round
     attr_reader :deck, :players, :communal_cards
 
@@ -56,6 +69,8 @@ module Poker
   end
 
   class Deck
+    attr_reader :cards
+
     def initialize
       @cards = assemble_deck.shuffle
     end
@@ -66,6 +81,10 @@ module Poker
 
     def pop
       @cards.pop
+    end
+
+    def sample(number)
+      @cards.sample(number)
     end
 
     private
