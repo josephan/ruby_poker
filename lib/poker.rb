@@ -2,16 +2,20 @@ module Poker
   SUITS = [:spades, :hearts, :diamonds, :clubs]
   NUMBERS = [2, 3, 4, 5, 6, 7, 8, 9, 10, :jack, :queen, :king, :ace]
 
-  def self.royal_flush(cards)
-  end
+  module Ranking
+    RANK = [:high_card, :one_pair, :two_pair, :trips, :straight, :flush, :full_house, :quads, :straight_flush, :royal_flush]
 
-  def self.popuar_suit(cards)
-    cards.group_by(&:suit).values.max_by(&:size).first
-  end
+    def self.royal_flush?(cards)
+    end
 
-  def self.same_suit?(cards)
-    suit = cards[0].suit
-    cards.all? { |card| card.suit == suit } ? suit : false
+    def self.popular_suit(cards)
+      cards.group_by(&:suit).values.max_by(&:size).first.suit
+    end
+
+    def self.same_suit?(cards)
+      suit = cards[0].suit
+      cards.all? { |card| card.suit == suit } ? suit : false
+    end
   end
 
   class Round
