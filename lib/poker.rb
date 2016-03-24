@@ -3,11 +3,10 @@ module Poker
   NUMBERS = [2, 3, 4, 5, 6, 7, 8, 9, 10, :jack, :queen, :king, :ace]
 
   def self.royal_flush(cards)
-
   end
 
-  def self.common_suit(cards)
-
+  def self.popuar_suit(cards)
+    cards.group_by(&:suit).values.max_by(&:size).first
   end
 
   def self.same_suit?(cards)
