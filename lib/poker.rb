@@ -3,7 +3,10 @@ module Poker
   NUMBERS = [2, 3, 4, 5, 6, 7, 8, 9, 10, :jack, :queen, :king, :ace]
 
   module Ranking
-    RANK = [:high_card, :one_pair, :two_pair, :trips, :straight, :flush, :full_house, :quads, :straight_flush, :royal_flush]
+    RANKS = [
+      :high_card, :one_pair, :two_pair, :trips, :straight, :flush,
+      :full_house, :quads, :straight_flush, :royal_flush
+    ]
 
     def self.royal_flush?(cards)
     end
