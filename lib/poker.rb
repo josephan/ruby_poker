@@ -8,14 +8,52 @@ module Poker
       :full_house, :quads, :straight_flush, :royal_flush
     ]
 
-    def self.royal_flush?(cards)
+    def assign_rank(cards)
     end
 
-    def self.popular_suit(cards)
+    def royal_flush(cards)
+      suit = popular_suit(cards)
+      [
+        cards.include(Card.new(:ace, suit)),
+        cards.include(Card.new(:king, suit)),
+        cards.include(Card.new(:queen, suit)),
+        cards.include(Card.new(:jack, suit)),
+        cards.include(Card.new(10, suit))
+      ].all?
+    end
+
+    def straight_flush
+    end
+
+    def quads
+    end
+
+    def full_house
+    end
+
+    def flush
+    end
+
+    def straight
+    end
+
+    def trips
+    end
+
+    def two_pair
+    end
+
+    def one_pair
+    end
+
+    def high_card
+    end
+
+    def popular_suit(cards)
       cards.group_by(&:suit).values.max_by(&:size).first.suit
     end
 
-    def self.same_suit?(cards)
+    def same_suit?(cards)
       suit = cards[0].suit
       cards.all? { |card| card.suit == suit } ? suit : false
     end
@@ -29,6 +67,7 @@ module Poker
       @players = assemble_players(number_of_players)
       @communal_cards = []
       play_poker
+      rank_hands
     end
 
     private
@@ -43,6 +82,11 @@ module Poker
       reveal_card
     end
 
+    def rank_hands
+      @players.each do |player|
+      end
+    end
+
     def assemble_players(number_of_players)
       players = []
       number_of_players.times do |n|
@@ -54,7 +98,7 @@ module Poker
     def deal_cards
       2.times do
         @players.each do |player|
-          player.cards << @deck.pop
+          player.hand << @deck.pop
         end
       end
     end
@@ -129,11 +173,14 @@ module Poker
   end
 
   class Player
-    attr_accessor :cards
+    attr_accessor :hand, :rank
+
+    include Ranking
 
     def initialize(name)
       @name = name
-      @cards = []
+      @hand = []
+      @rank
     end
   end
 end
