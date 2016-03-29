@@ -20,7 +20,7 @@ class Poker::RoundTest < Minitest::Test
   end
 
   def test_each_player_starts_with_two_cards
-    assert_equal 2, @round.players.first.cards.size
+    assert_equal 2, @round.players.first.hand.size
   end
 
   def test_deck_gets_smaller

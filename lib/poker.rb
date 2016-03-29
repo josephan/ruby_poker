@@ -152,11 +152,12 @@ module Poker
   end
 
   class Card
-    attr_reader :number, :suit
+    attr_reader :number, :suit, :rank
 
     def initialize(number, suit)
       @number = number
       @suit = suit
+      @rank = NUMBERS.index(self.number)
     end
 
     def ==(another_card)
@@ -164,11 +165,11 @@ module Poker
     end
 
     def >(another_card)
-      NUMBERS.index(self.number) > NUMBERS.index(another_card.number)
+      @rank > another_card.rank
     end
 
     def <(another_card)
-      NUMBERS.index(self.number) < NUMBERS.index(another_card.number)
+      @rank < another_card.rank
     end
   end
 
