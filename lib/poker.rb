@@ -34,7 +34,15 @@ module Poker
     def flush
     end
 
-    def straight
+    def straight(cards)
+      sorted_cards = cards.sort_by { |card| card.rank }
+      card_difference = sorted_cards.each_with_index.map do |card, ind|
+        sorted_cards[ind + 1].rank - card.rank unless ind == 6
+      end.compact
+      combo = 0
+      card_difference.each_with_index do |diff, ind|
+
+      end
     end
 
     def trips
