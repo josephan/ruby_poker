@@ -1,6 +1,30 @@
 require 'minitest/autorun'
 require_relative '../lib/poker'
 
+class Poker::RankingTest < Minitest::Test
+  def test_royal_flush
+    suit = :spades
+    cards = [
+      Poker::Card.new(:ace, suit),
+      Poker::Card.new(:king, suit),
+      Poker::Card.new(:queen, suit),
+      Poker::Card.new(:jack, suit),
+      Poker::Card.new(10, suit)
+    ]
+
+    new_cards = [
+      Poker::Card.new(5, :hearts)
+    ]
+
+    assert_equal true, Poker::Ranking.royal_flush(cards)
+    assert_equal false, Poker::Ranking.royal_flush(cards[0..3] + new_cards)
+  end
+
+  def test_straight
+
+  end
+end
+
 class Poker::RoundTest < Minitest::Test
   def setup
     @round = Poker::Round.new(5)

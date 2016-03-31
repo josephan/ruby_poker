@@ -3,6 +3,8 @@ module Poker
   NUMBERS = [2, 3, 4, 5, 6, 7, 8, 9, 10, :jack, :queen, :king, :ace]
 
   module Ranking
+    extend self
+
     RANKS = [
       :high_card, :one_pair, :two_pair, :trips, :straight, :flush,
       :full_house, :quads, :straight_flush, :royal_flush
@@ -14,11 +16,11 @@ module Poker
     def royal_flush(cards)
       suit = popular_suit(cards)
       [
-        cards.include(Card.new(:ace, suit)),
-        cards.include(Card.new(:king, suit)),
-        cards.include(Card.new(:queen, suit)),
-        cards.include(Card.new(:jack, suit)),
-        cards.include(Card.new(10, suit))
+        cards.include?(Card.new(:ace, suit)),
+        cards.include?(Card.new(:king, suit)),
+        cards.include?(Card.new(:queen, suit)),
+        cards.include?(Card.new(:jack, suit)),
+        cards.include?(Card.new(10, suit))
       ].all?
     end
 
@@ -37,12 +39,19 @@ module Poker
     def straight(cards)
       sorted_cards = cards.sort_by { |card| card.rank }
       card_difference = sorted_cards.each_with_index.map do |card, ind|
-        sorted_cards[ind + 1].rank - card.rank unless ind == 6
-      end.compact
+        break if ind == sorted_cards.length - 1
+        sorted_cards[ind + 1].rank - card.rank
+      end
       combo = 0
       card_difference.each_with_index do |diff, ind|
-
+        if diff == 1
+          combo += 1
+        else
+          combo = 0
+        end
+        return true if combo == 4
       end
+      false
     end
 
     def trips
