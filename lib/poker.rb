@@ -2,12 +2,14 @@ module Poker
   SUITS = [:spades, :hearts, :diamonds, :clubs]
   NUMBERS = [2, 3, 4, 5, 6, 7, 8, 9, 10, :jack, :queen, :king, :ace]
 
+  # add question mark to each methods
   module Ranking
     extend self
 
+    # Reverse this
     RANKS = [
-      :high_card, :one_pair, :two_pair, :trips, :straight, :flush,
-      :full_house, :quads, :straight_flush, :royal_flush
+      :royal_flush, :straight_flush, :quads, :full_house, :flush,
+      :straight, :trips, :two_pair, :one_pair, :high_card
     ]
 
     def assign_rank(cards)
@@ -25,6 +27,11 @@ module Poker
     end
 
     def straight_flush
+      suit = popular_suit(cards)
+      cards.each_with_index do |card, ind|
+        cards[:ind].delete(card) if card.suit != suit
+      end
+      straight(cards)
     end
 
     def quads
@@ -36,20 +43,13 @@ module Poker
     def flush
     end
 
+    # Check in blocks of five
+    # Enumerator#each_cons ( and remove dups )
     def straight(cards)
+      cards = duplicate_aces(cards)
       sorted_cards = cards.sort_by { |card| card.rank }
-      card_difference = sorted_cards.each_with_index.map do |card, ind|
-        break if ind == sorted_cards.length - 1
-        sorted_cards[ind + 1].rank - card.rank
-      end
-      combo = 0
-      card_difference.each_with_index do |diff, ind|
-        if diff == 1
-          combo += 1
-        else
-          combo = 0
-        end
-        return true if combo == 4
+      sorted_cards.map { |card| card.rank }.uniq.each_cons(5) do |array|
+        return true if array.last - array.first == 5
       end
       false
     end
@@ -64,6 +64,18 @@ module Poker
     end
 
     def high_card
+    end
+
+    def duplicate_aces(cards)
+      temp_array = []
+      cards.each do |card|
+        if card.number == :ace
+          dup_card = Card.new(:ace, card.suit)
+          dup_card.rank = -1
+          temp_array << dup_card
+        end
+      end
+      temp_array + cards
     end
 
     def popular_suit(cards)
@@ -168,8 +180,10 @@ module Poker
 
   end
 
+  # Look into eql, hash
   class Card
-    attr_reader :number, :suit, :rank
+    attr_reader :number, :suit
+    attr_accessor :rank
 
     def initialize(number, suit)
       @number = number
