@@ -1,8 +1,13 @@
+require_relative '../poker'
+require_relative 'deck'
+require_relative 'player'
+
 module Poker
+  # A round of a poker game that ties it all together
   class Round
     attr_reader :deck, :players, :communal_cards
 
-    def initialize(number_of_players, options = {})
+    def initialize(number_of_players, _options = {})
       @deck = Deck.new
       @players = assemble_players(number_of_players)
       @communal_cards = []
@@ -30,7 +35,7 @@ module Poker
     def assemble_players(number_of_players)
       players = []
       number_of_players.times do |n|
-        players << Player.new("Player #{n+1}", )
+        players << Player.new("Player #{n + 1}")
       end
       players
     end

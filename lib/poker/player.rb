@@ -1,4 +1,5 @@
 module Poker
+  # Representation of an individual poker player
   class Player
     attr_accessor :hand, :rank
 

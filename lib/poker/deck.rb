@@ -1,4 +1,8 @@
+require_relative '../poker'
+require_relative 'card'
+
 module Poker
+  # A deck of cards
   class Deck
     attr_reader :cards
 

@@ -1,9 +1,12 @@
+require_relative 'card'
+
 module Poker
+  # Determines the rank of a hand given an array of cards
   class Ranking
     RANKS = [
       :royal_flush, :straight_flush, :quads, :full_house, :flush,
       :straight, :trips, :two_pair, :one_pair, :high_card
-    ]
+    ].freeze
 
     def assign_rank(cards)
     end
@@ -22,7 +25,7 @@ module Poker
     def straight_flush(cards)
       suit = popular_suit(cards)
       cards.each_with_index do |card, ind|
-        cards[:ind].delete(card) if card.suit != suit
+        cards[ind].delete(card) if card.suit != suit
       end
       straight(cards)
     end
@@ -38,8 +41,8 @@ module Poker
 
     def straight(cards)
       cards = duplicate_aces(cards)
-      sorted_cards = cards.sort_by { |card| card.rank }
-      sorted_cards.map { |card| card.rank }.uniq.each_cons(5) do |array|
+      sorted_cards = cards.sort_by(&:rank)
+      sorted_cards.map(&:rank).uniq.each_cons(5) do |array|
         return true if array.last - array.first == 5
       end
       false
@@ -60,11 +63,10 @@ module Poker
     def duplicate_aces(cards)
       temp_array = []
       cards.each do |card|
-        if card.number == :ace
-          dup_card = Card.new(:ace, card.suit)
-          dup_card.rank = -1
-          temp_array << dup_card
-        end
+        next unless card.number == :ace
+        dup_card = Card.new(:ace, card.suit)
+        dup_card.rank = -1
+        temp_array << dup_card
       end
       temp_array + cards
     end

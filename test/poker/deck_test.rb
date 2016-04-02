@@ -1,5 +1,7 @@
 require 'minitest/autorun'
 require_relative '../lib/poker'
 
-class Poker::DeckTest < Minitest::Test
+module Poker
+  class DeckTest < Minitest::Test
+  end
 end

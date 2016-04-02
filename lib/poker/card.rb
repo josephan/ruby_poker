@@ -1,4 +1,7 @@
+require_relative '../poker'
+
 module Poker
+  # Representation of a playing card in a standard 52 card deck
   # Look into eql, hash
   class Card
     attr_reader :number, :suit
@@ -10,16 +13,16 @@ module Poker
       @rank = NUMBERS.index(self.number)
     end
 
-    def ==(another_card)
-      self.number == another_card.number && self.suit == another_card.suit
+    def ==(other)
+      number == other.number && suit == other.suit
     end
 
-    def >(another_card)
-      @rank > another_card.rank
+    def >(other)
+      @rank > other.rank
     end
 
-    def <(another_card)
-      @rank < another_card.rank
+    def <(other)
+      @rank < other.rank
     end
   end
 end
