@@ -1,8 +1,5 @@
 module Poker
   class Ranking
-    extend self
-
-    # Reverse this
     RANKS = [
       :royal_flush, :straight_flush, :quads, :full_house, :flush,
       :straight, :trips, :two_pair, :one_pair, :high_card
@@ -39,8 +36,6 @@ module Poker
     def flush
     end
 
-    # Check in blocks of five
-    # Enumerator#each_cons ( and remove dups )
     def straight(cards)
       cards = duplicate_aces(cards)
       sorted_cards = cards.sort_by { |card| card.rank }
