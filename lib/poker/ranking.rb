@@ -8,10 +8,7 @@ module Poker
       :straight, :trips, :two_pair, :one_pair, :high_card
     ].freeze
 
-    def assign_rank(cards)
-    end
-
-    def royal_flush(cards)
+    def royal_flush?(cards)
       suit = popular_suit(cards)
       [
         cards.include?(Card.new(:ace, suit)),
@@ -22,43 +19,51 @@ module Poker
       ].all?
     end
 
-    def straight_flush(cards)
-      suit = popular_suit(cards)
+    def straight_flush?(cards)
+      suit = popular_suit(duplicate_aces(cards))
       cards.each_with_index do |card, ind|
-        cards[ind].delete(card) if card.suit != suit
+        cards.delete_at(2) if card.suit != suit
       end
-      straight(cards)
+      straight?(cards)
     end
 
-    def quads
+    def quads?(cards)
+      cards.group_by(&:rank).values.max_by(&:size).size == 4
     end
 
-    def full_house
+    def full_house?
+      trips?(cards) && one_pair?(cards)
     end
 
-    def flush
+    def flush?(cards)
+      cards.group_by(&:suit).values.max_by(&:size).size >= 5
     end
 
-    def straight(cards)
+    def straight?(cards)
       cards = duplicate_aces(cards)
       sorted_cards = cards.sort_by(&:rank)
       sorted_cards.map(&:rank).uniq.each_cons(5) do |array|
-        return true if array.last - array.first == 5
+        return true if array.last - array.first == 4
       end
       false
     end
 
-    def trips
+    def trips?(cards)
+      cards.group_by(&:number).values.max_by(&:size).size == 3
     end
 
-    def two_pair
+    def two_pair?(cards)
     end
 
-    def one_pair
+    def one_pair?(cards)
+      cards.group_by(&:number).values.max_by(&:size).size == 2
     end
 
-    def high_card
+    def high_card(cards)
+      cards.sort_by(&:rank).last
     end
+
+    private
 
     def duplicate_aces(cards)
       temp_array = []
@@ -73,11 +78,6 @@ module Poker
 
     def popular_suit(cards)
       cards.group_by(&:suit).values.max_by(&:size).first.suit
-    end
-
-    def same_suit?(cards)
-      suit = cards[0].suit
-      cards.all? { |card| card.suit == suit } ? suit : false
     end
   end
 end

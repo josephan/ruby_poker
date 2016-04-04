@@ -1,6 +1,6 @@
-require_relative '../poker'
 require_relative 'deck'
 require_relative 'player'
+require_relative 'ranking'
 
 module Poker
   # A round of a poker game that ties it all together
