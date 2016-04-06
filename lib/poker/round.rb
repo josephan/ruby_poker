@@ -11,6 +11,9 @@ module Poker
       @deck = Deck.new
       @players = assemble_players(number_of_players)
       @communal_cards = []
+    end
+
+    def play
       play_poker
       rank_hands
       declare_winner
@@ -29,6 +32,7 @@ module Poker
     end
 
     def declare_winner
+      @players.group_by(&:rank).sort_by { |k,v| k }
       winner = @players.max_by(&:rank)
       puts "The winner is #{winner.name} with a #{(NUMBERS + Ranking::RANKS.reverse)[winner.rank]}!"
     end

@@ -27,11 +27,10 @@ module Poker
     end
 
     def straight_flush?
-      suit = popular_suit(duplicate_aces(@cards))
-      @cards.each_with_index do |card, ind|
-        @cards.delete_at(2) if card.suit != suit
-      end
-      straight?
+      temp_cards = duplicate_aces(@cards)
+      suit = popular_suit(@cards)
+      temp_cards = temp_cards.select { |card| card.suit == suit }
+      straight_with_dup_aces?(temp_cards)
     end
 
     def quads?
@@ -39,12 +38,7 @@ module Poker
     end
 
     def full_house?
-      if trips?
-        @cards -= @cards.group_by(&:number).values.max_by(&:size)
-        one_pair?
-      else
-        false
-      end
+      trips? && one_pair?
     end
 
     def flush?
@@ -52,16 +46,12 @@ module Poker
     end
 
     def straight?
-      @cards = duplicate_aces(@cards)
-      sorted_cards = @cards.sort_by(&:rank)
-      sorted_cards.map(&:rank).uniq.each_cons(5) do |array|
-        return true if array.last - array.first == 4
-      end
-      false
+      temp_cards = duplicate_aces(@cards)
+      straight_with_dup_aces?(temp_cards)
     end
 
     def trips?
-      @cards.group_by(&:number).values.max_by(&:size).size == 3
+      @cards.group_by(&:number).select { |k,v| v.size == 3 }.values.length == 1
     end
 
     def two_pair?
@@ -69,7 +59,7 @@ module Poker
     end
 
     def one_pair?
-      @cards.group_by(&:number).values.max_by(&:size).size == 2
+      @cards.group_by(&:number).select { |k,v| v.size == 2 }.values.length == 1
     end
 
     def high_card
@@ -77,6 +67,15 @@ module Poker
     end
 
     private
+
+    def straight_with_dup_aces?(cards)
+      temp_cards = duplicate_aces(cards)
+      sorted_cards = temp_cards.sort_by(&:rank)
+      sorted_cards.map(&:rank).uniq.each_cons(5) do |array|
+        return true if array.last - array.first == 4
+      end
+      false
+    end
 
     def duplicate_aces(cards)
       temp_array = []
