@@ -8,6 +8,10 @@ module Poker
       :straight, :trips, :two_pair, :one_pair, :high_card
     ].freeze
 
+    # def initialize(cards)
+    #   @cards = cards
+    # end
+
     def royal_flush?(cards)
       suit = popular_suit(cards)
       [
@@ -31,8 +35,13 @@ module Poker
       cards.group_by(&:rank).values.max_by(&:size).size == 4
     end
 
-    def full_house?
-      trips?(cards) && one_pair?(cards)
+    def full_house?(cards)
+      if trips?(cards)
+        cards -= cards.group_by(&:number).values.max_by(&:size)
+        one_pair?(cards)
+      else
+        false
+      end
     end
 
     def flush?(cards)
@@ -53,6 +62,7 @@ module Poker
     end
 
     def two_pair?(cards)
+      cards.group_by(&:number).select { |k,v| v.size == 2 }.values.length == 2
     end
 
     def one_pair?(cards)
@@ -60,7 +70,7 @@ module Poker
     end
 
     def high_card(cards)
-      cards.sort_by(&:rank).last
+      cards.sort_by(&:rank).last.number
     end
 
     private

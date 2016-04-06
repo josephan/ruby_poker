@@ -62,6 +62,25 @@ module Poker
     end
 
     def test_full_house?
+      num1, num2 = 2, 3
+      filler = [
+        Poker::Card.new(4, :spades),
+        Poker::Card.new(5, :spades),
+        Poker::Card.new(6, :spades)
+      ]
+      trips = [
+        Poker::Card.new(num1, :spades),
+        Poker::Card.new(num1, :hearts),
+        Poker::Card.new(num1, :diamonds),
+      ]
+      dubs = [
+        Poker::Card.new(num2, :diamonds),
+        Poker::Card.new(num2, :spades)
+      ]
+
+      assert_equal false, @ranking.full_house?(filler + trips)
+      assert_equal false, @ranking.full_house?(filler + dubs)
+      assert_equal true, @ranking.full_house?(trips + dubs)
     end
 
     def test_flush?
@@ -108,7 +127,6 @@ module Poker
         Poker::Card.new(number, :hearts),
         Poker::Card.new(number, :spades)
       ]
-
       extra_cards = [
         Poker::Card.new(:jack, :clubs),
         Poker::Card.new(:ace, :spades)
@@ -119,13 +137,48 @@ module Poker
     end
 
     def test_two_pair?
+      cards = [
+        Poker::Card.new(10, :spades),
+        Poker::Card.new(10, :diamonds),
+        Poker::Card.new(:jack, :diamonds),
+        Poker::Card.new(:ace, :diamonds),
+      ]
+      extra_cards = [
+        Poker::Card.new(9, :hearts),
+        Poker::Card.new(9, :clubs)
+      ]
+
+      assert_equal true, @ranking.two_pair?(cards + extra_cards)
+      assert_equal false, @ranking.two_pair?(cards)
     end
 
     def test_one_pair?
+      suit = :hearts
+      cards = [
+        Poker::Card.new(:ace, suit),
+        Poker::Card.new(:king, suit),
+        Poker::Card.new(:queen, suit),
+        Poker::Card.new(:jack, suit),
+        Poker::Card.new(10, suit)
+      ]
+      extra_card = [Poker::Card.new(:ace, :spades)]
+
+      assert_equal true, @ranking.one_pair?(cards + extra_card)
+      assert_equal false, @ranking.one_pair?(cards)
     end
 
     def test_high_card
+      suit = :aces
+      cards = [
+        Poker::Card.new(2, suit),
+        Poker::Card.new(3, suit),
+        Poker::Card.new(4, suit),
+        Poker::Card.new(7, suit),
+        Poker::Card.new(9, suit),
+        Poker::Card.new(:king, suit)
+      ]
 
+      assert_equal :king, @ranking.high_card(cards)
     end
   end
 end
