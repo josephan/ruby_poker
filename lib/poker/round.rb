@@ -13,6 +13,7 @@ module Poker
       @communal_cards = []
       play_poker
       rank_hands
+      declare_winner
     end
 
     private
@@ -27,9 +28,20 @@ module Poker
       reveal_card
     end
 
+    def declare_winner
+      winner = @players.max_by(&:rank)
+      puts "The winner is #{winner.name} with a #{(NUMBERS + Ranking::RANKS.reverse)[winner.rank]}!"
+    end
+
     def rank_hands
       @players.each do |player|
+        hand_rank = Ranking.new(@communal_cards + player.hand).result
+        player.rank = index_of_rank(hand_rank)
       end
+    end
+
+    def index_of_rank(rank)
+      (NUMBERS + Ranking::RANKS.reverse).index(rank)
     end
 
     def assemble_players(number_of_players)

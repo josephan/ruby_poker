@@ -3,13 +3,16 @@ require_relative 'card'
 module Poker
   # Determines the rank of a hand given an array of cards
   class Ranking
+    attr_reader :result
+
     RANKS = [
       :royal_flush, :straight_flush, :quads, :full_house, :flush,
-      :straight, :trips, :two_pair, :one_pair, :high_card
+      :straight, :trips, :two_pair, :one_pair
     ].freeze
 
     def initialize(cards)
       @cards = cards
+      @result = find_rank
     end
 
     def royal_flush?
@@ -88,6 +91,13 @@ module Poker
 
     def popular_suit(cards)
       cards.group_by(&:suit).values.max_by(&:size).first.suit
+    end
+
+    def find_rank
+      RANKS.each do |rank|
+        return rank if self.public_send(:"#{rank}?")
+      end
+      high_card
     end
   end
 end
