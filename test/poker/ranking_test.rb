@@ -3,10 +3,6 @@ require_relative '../../lib/poker/ranking'
 
 module Poker
   class RankingTest < Minitest::Test
-    def setup
-      @ranking = Poker::Ranking.new
-    end
-
     def test_royal_flush?
       suit = :spades
       cards = [
@@ -21,8 +17,8 @@ module Poker
         Poker::Card.new(5, :hearts)
       ]
 
-      assert_equal true, @ranking.royal_flush?(cards)
-      assert_equal false, @ranking.royal_flush?(cards[0..3] + new_cards)
+      assert_equal true, Poker::Ranking.new(cards).royal_flush?
+      assert_equal false, Poker::Ranking.new(cards[0..3] + new_cards).royal_flush?
     end
 
     def test_straight_flush?
@@ -39,8 +35,8 @@ module Poker
         Poker::Card.new(:ace, :diamonds)
       ]
 
-      assert_equal true, @ranking.straight_flush?(cards)
-      assert_equal false, @ranking.straight_flush?(cards[0..3] + extra_cards)
+      assert_equal true, Poker::Ranking.new(cards).straight_flush?
+      assert_equal false, Poker::Ranking.new(cards[0..3] + extra_cards).straight_flush?
     end
 
     def test_quads?
@@ -57,8 +53,8 @@ module Poker
         Poker::Card.new(:ace, :spades)
       ]
 
-      assert_equal true, @ranking.quads?(cards)
-      assert_equal false, @ranking.quads?(cards[0..2] + extra_cards)
+      assert_equal true, Poker::Ranking.new(cards).quads?
+      assert_equal false, Poker::Ranking.new(cards[0..2] + extra_cards).quads?
     end
 
     def test_full_house?
@@ -78,9 +74,9 @@ module Poker
         Poker::Card.new(num2, :spades)
       ]
 
-      assert_equal false, @ranking.full_house?(filler + trips)
-      assert_equal false, @ranking.full_house?(filler + dubs)
-      assert_equal true, @ranking.full_house?(trips + dubs)
+      assert_equal false, Poker::Ranking.new(filler + trips).full_house?
+      assert_equal false, Poker::Ranking.new(filler + dubs).full_house?
+      assert_equal true, Poker::Ranking.new(trips + dubs).full_house?
     end
 
     def test_flush?
@@ -97,8 +93,8 @@ module Poker
         Poker::Card.new(9, :clubs)
       ]
 
-      assert_equal true, @ranking.flush?(cards)
-      assert_equal true, @ranking.flush?(cards[0..4] + new_card)
+      assert_equal true, Poker::Ranking.new(cards).flush?
+      assert_equal true, Poker::Ranking.new(cards[0..4] + new_card).flush?
     end
 
     def test_straight?
@@ -115,8 +111,8 @@ module Poker
         Poker::Card.new(2, :spades)
       ]
 
-      assert_equal true, @ranking.straight?(cards + extra_cards)
-      assert_equal false, @ranking.straight?(cards[0..3] + extra_cards)
+      assert_equal true, Poker::Ranking.new(cards + extra_cards).straight?
+      assert_equal false, Poker::Ranking.new(cards[0..3] + extra_cards).straight?
     end
 
     def test_trips?
@@ -132,8 +128,8 @@ module Poker
         Poker::Card.new(:ace, :spades)
       ]
 
-      assert_equal true, @ranking.trips?(cards)
-      assert_equal false, @ranking.trips?(cards[0..2] + extra_cards)
+      assert_equal true, Poker::Ranking.new(cards).trips?
+      assert_equal false, Poker::Ranking.new(cards[0..2] + extra_cards).trips?
     end
 
     def test_two_pair?
@@ -148,8 +144,8 @@ module Poker
         Poker::Card.new(9, :clubs)
       ]
 
-      assert_equal true, @ranking.two_pair?(cards + extra_cards)
-      assert_equal false, @ranking.two_pair?(cards)
+      assert_equal true, Poker::Ranking.new(cards + extra_cards).two_pair?
+      assert_equal false, Poker::Ranking.new(cards).two_pair?
     end
 
     def test_one_pair?
@@ -163,8 +159,8 @@ module Poker
       ]
       extra_card = [Poker::Card.new(:ace, :spades)]
 
-      assert_equal true, @ranking.one_pair?(cards + extra_card)
-      assert_equal false, @ranking.one_pair?(cards)
+      assert_equal true, Poker::Ranking.new(cards + extra_card).one_pair?
+      assert_equal false, Poker::Ranking.new(cards).one_pair?
     end
 
     def test_high_card
@@ -178,7 +174,7 @@ module Poker
         Poker::Card.new(:king, suit)
       ]
 
-      assert_equal :king, @ranking.high_card(cards)
+      assert_equal :king, Poker::Ranking.new(cards).high_card
     end
   end
 end
