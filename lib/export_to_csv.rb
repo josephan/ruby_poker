@@ -10,7 +10,7 @@ number_of_players.to_i.times do |i|
   headers << "Player #{i + 1}"
 end
 
-CSV.open(file_name, "wb") do |csv|
+CSV.open(file_name + ".csv", "wb") do |csv|
   csv << headers
   rounds_of_poker.to_i.times do |i|
     round = Poker::Round.new(number_of_players.to_i).play
