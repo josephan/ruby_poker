@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative '../lib/poker/card'
+require_relative '../../lib/poker/card'
 
 module Poker
   class CardTest < Minitest::Test
@@ -24,6 +24,11 @@ module Poker
     def test_card_less_than
       assert_equal false, @high_card < @low_card
       assert_equal true, @low_card < @high_card
+    end
+
+    def test_card_format
+      assert_equal "ace of spades", @high_card.format
+      assert_equal "2 of hearts", @low_card.format
     end
   end
 end

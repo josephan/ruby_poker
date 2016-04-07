@@ -5,7 +5,7 @@ require_relative 'ranking'
 module Poker
   # A round of a poker game that ties it all together
   class Round
-    attr_reader :deck, :players, :communal_cards
+    attr_reader :deck, :players, :communal_cards, :winner
 
     def initialize(number_of_players, _options = {})
       @deck = Deck.new
@@ -17,6 +17,7 @@ module Poker
       play_poker
       rank_hands
       declare_winner
+      self
     end
 
     private
@@ -32,9 +33,7 @@ module Poker
     end
 
     def declare_winner
-      @players.group_by(&:rank).sort_by { |k,v| k }
-      winner = @players.max_by(&:rank)
-      puts "The winner is #{winner.name} with a #{(NUMBERS + Ranking::RANKS.reverse)[winner.rank]}!"
+      @winner = @players.max_by(&:rank)
     end
 
     def rank_hands
@@ -79,3 +78,4 @@ module Poker
     end
   end
 end
+

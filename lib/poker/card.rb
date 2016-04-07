@@ -1,4 +1,4 @@
-require_relative '../poker'
+require_relative 'poker'
 
 module Poker
   # Representation of a playing card in a standard 52 card deck
@@ -11,6 +11,10 @@ module Poker
       @number = number
       @suit = suit
       @rank = NUMBERS.index(self.number)
+    end
+
+    def format
+      "#{@number} of #{@suit}"
     end
 
     def ==(other)

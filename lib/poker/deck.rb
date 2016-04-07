@@ -1,4 +1,4 @@
-require_relative '../poker'
+require_relative 'poker'
 require_relative 'card'
 
 module Poker
