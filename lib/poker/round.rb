@@ -33,6 +33,7 @@ module Poker
     end
 
     def declare_winner
+      Draw.new(@players.group_by(&:rank).max[-1])
       @winner = @players.max_by(&:rank)
     end
 

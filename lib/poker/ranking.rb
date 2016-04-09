@@ -17,13 +17,8 @@ module Poker
 
     def royal_flush?
       suit = popular_suit(@cards)
-      [
-        @cards.include?(Card.new(:ace, suit)),
-        @cards.include?(Card.new(:king, suit)),
-        @cards.include?(Card.new(:queen, suit)),
-        @cards.include?(Card.new(:jack, suit)),
-        @cards.include?(Card.new(10, suit))
-      ].all?
+      @cards.select { |card| card.suit == suit }
+        .select { |card| card.rank > 7 }.uniq.length == 5
     end
 
     def straight_flush?
