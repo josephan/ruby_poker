@@ -1,6 +1,7 @@
 require_relative 'deck'
 require_relative 'player'
 require_relative 'ranking'
+require_relative 'draw'
 
 module Poker
   # A round of a poker game that ties it all together
@@ -33,7 +34,7 @@ module Poker
     end
 
     def declare_winner
-      Draw.new(@players.group_by(&:rank).max[-1])
+      # Draw.new(@players.group_by(&:rank).max[-1])
       @winner = @players.max_by(&:rank)
     end
 

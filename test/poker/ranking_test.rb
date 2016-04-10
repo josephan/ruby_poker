@@ -4,21 +4,21 @@ require_relative '../../lib/poker/ranking'
 module Poker
   class RankingTest < Minitest::Test
     def setup
-      @class = Poker::Ranking
+      @class = Ranking
     end
 
     def test_royal_flush?
       suit = :spades
       cards = [
-        Poker::Card.new(:ace, suit),
-        Poker::Card.new(:king, suit),
-        Poker::Card.new(:queen, suit),
-        Poker::Card.new(:jack, suit),
-        Poker::Card.new(10, suit)
+        Card.new(:ace, suit),
+        Card.new(:king, suit),
+        Card.new(:queen, suit),
+        Card.new(:jack, suit),
+        Card.new(10, suit)
       ]
 
       new_cards = [
-        Poker::Card.new(5, :hearts)
+        Card.new(5, :hearts)
       ]
 
       assert_equal true, @class.new(cards).royal_flush?
@@ -28,15 +28,15 @@ module Poker
     def test_straight_flush?
       suit = :hearts
       cards = [
-        Poker::Card.new(:ace, suit),
-        Poker::Card.new(:king, suit),
-        Poker::Card.new(:queen, suit),
-        Poker::Card.new(:jack, suit),
-        Poker::Card.new(10, suit)
+        Card.new(:ace, suit),
+        Card.new(:king, suit),
+        Card.new(:queen, suit),
+        Card.new(:jack, suit),
+        Card.new(10, suit)
       ]
 
       extra_cards = [
-        Poker::Card.new(:ace, :diamonds)
+        Card.new(:ace, :diamonds)
       ]
 
       assert_equal true, @class.new(cards).straight_flush?
@@ -46,15 +46,15 @@ module Poker
     def test_quads?
       number = 10
       cards = [
-        Poker::Card.new(number, :diamonds),
-        Poker::Card.new(number, :hearts),
-        Poker::Card.new(number, :spades),
-        Poker::Card.new(number, :clubs),
+        Card.new(number, :diamonds),
+        Card.new(number, :hearts),
+        Card.new(number, :spades),
+        Card.new(number, :clubs),
       ]
 
       extra_cards = [
-        Poker::Card.new(:jack, :clubs),
-        Poker::Card.new(:ace, :spades)
+        Card.new(:jack, :clubs),
+        Card.new(:ace, :spades)
       ]
 
       assert_equal true, @class.new(cards).quads?
@@ -64,18 +64,18 @@ module Poker
     def test_full_house?
       num1, num2 = 2, 3
       filler = [
-        Poker::Card.new(4, :spades),
-        Poker::Card.new(5, :spades),
-        Poker::Card.new(6, :spades)
+        Card.new(4, :spades),
+        Card.new(5, :spades),
+        Card.new(6, :spades)
       ]
       trips = [
-        Poker::Card.new(num1, :spades),
-        Poker::Card.new(num1, :hearts),
-        Poker::Card.new(num1, :diamonds),
+        Card.new(num1, :spades),
+        Card.new(num1, :hearts),
+        Card.new(num1, :diamonds),
       ]
       dubs = [
-        Poker::Card.new(num2, :diamonds),
-        Poker::Card.new(num2, :spades)
+        Card.new(num2, :diamonds),
+        Card.new(num2, :spades)
       ]
 
       assert_equal false, @class.new(filler + trips).full_house?
@@ -86,15 +86,15 @@ module Poker
     def test_flush?
       suit = :spades
       cards = [
-        Poker::Card.new(3, suit),
-        Poker::Card.new(2, suit),
-        Poker::Card.new(4, suit),
-        Poker::Card.new(6, suit),
-        Poker::Card.new(8, suit),
+        Card.new(3, suit),
+        Card.new(2, suit),
+        Card.new(4, suit),
+        Card.new(6, suit),
+        Card.new(8, suit),
       ]
 
       new_card = [
-        Poker::Card.new(9, :clubs)
+        Card.new(9, :clubs)
       ]
 
       assert_equal true, @class.new(cards).flush?
@@ -103,16 +103,16 @@ module Poker
 
     def test_straight?
       cards = [
-        Poker::Card.new(:ace, Poker::SUITS.sample),
-        Poker::Card.new(:king, Poker::SUITS.sample),
-        Poker::Card.new(:queen, Poker::SUITS.sample),
-        Poker::Card.new(:jack, Poker::SUITS.sample),
-        Poker::Card.new(10, Poker::SUITS.sample)
+        Card.new(:ace, SUITS.sample),
+        Card.new(:king, SUITS.sample),
+        Card.new(:queen, SUITS.sample),
+        Card.new(:jack, SUITS.sample),
+        Card.new(10, SUITS.sample)
       ]
 
       extra_cards = [
-        Poker::Card.new(5, :hearts),
-        Poker::Card.new(2, :spades)
+        Card.new(5, :hearts),
+        Card.new(2, :spades)
       ]
 
       assert_equal true, @class.new(cards + extra_cards).straight?
@@ -122,14 +122,14 @@ module Poker
     def test_trips?
       number = 10
       cards = [
-        Poker::Card.new(9, :clubs),
-        Poker::Card.new(number, :diamonds),
-        Poker::Card.new(number, :hearts),
-        Poker::Card.new(number, :spades)
+        Card.new(9, :clubs),
+        Card.new(number, :diamonds),
+        Card.new(number, :hearts),
+        Card.new(number, :spades)
       ]
       extra_cards = [
-        Poker::Card.new(:jack, :clubs),
-        Poker::Card.new(:ace, :spades)
+        Card.new(:jack, :clubs),
+        Card.new(:ace, :spades)
       ]
 
       assert_equal true, @class.new(cards).trips?
@@ -138,14 +138,14 @@ module Poker
 
     def test_two_pair?
       cards = [
-        Poker::Card.new(10, :spades),
-        Poker::Card.new(10, :diamonds),
-        Poker::Card.new(:jack, :diamonds),
-        Poker::Card.new(:ace, :diamonds),
+        Card.new(10, :spades),
+        Card.new(10, :diamonds),
+        Card.new(:jack, :diamonds),
+        Card.new(:ace, :diamonds),
       ]
       extra_cards = [
-        Poker::Card.new(9, :hearts),
-        Poker::Card.new(9, :clubs)
+        Card.new(9, :hearts),
+        Card.new(9, :clubs)
       ]
 
       assert_equal true, @class.new(cards + extra_cards).two_pair?
@@ -155,13 +155,13 @@ module Poker
     def test_one_pair?
       suit = :hearts
       cards = [
-        Poker::Card.new(:ace, suit),
-        Poker::Card.new(:king, suit),
-        Poker::Card.new(:queen, suit),
-        Poker::Card.new(:jack, suit),
-        Poker::Card.new(10, suit)
+        Card.new(:ace, suit),
+        Card.new(:king, suit),
+        Card.new(:queen, suit),
+        Card.new(:jack, suit),
+        Card.new(10, suit)
       ]
-      extra_card = [Poker::Card.new(:ace, :spades)]
+      extra_card = [Card.new(:ace, :spades)]
 
       assert_equal true, @class.new(cards + extra_card).one_pair?
       assert_equal false, @class.new(cards).one_pair?
@@ -170,12 +170,12 @@ module Poker
     def test_high_card
       suit = :aces
       cards = [
-        Poker::Card.new(2, suit),
-        Poker::Card.new(3, suit),
-        Poker::Card.new(4, suit),
-        Poker::Card.new(7, suit),
-        Poker::Card.new(9, suit),
-        Poker::Card.new(:king, suit)
+        Card.new(2, suit),
+        Card.new(3, suit),
+        Card.new(4, suit),
+        Card.new(7, suit),
+        Card.new(9, suit),
+        Card.new(:king, suit)
       ]
 
       assert_equal :king, @class.new(cards).high_card

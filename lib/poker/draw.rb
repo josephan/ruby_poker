@@ -1,14 +1,17 @@
+require_relative 'ranking'
+
 module Poker
   # Determines the real winner or if there is a draw
   class Draw
     attr_reader :winners
 
-    def initialize(players)
+    def initialize(players, options={})
       @players = players
       @winner = players[0] if players.size == 1
     end
 
     def royal_flush
+      highest_card_on_hand
     end
 
     def straight_flush
@@ -35,8 +38,8 @@ module Poker
     def one_pair
     end
 
-    def highest_card_on_hand
-      p
+    def players_with_highest_card
+      @players.group_by { |p| p.hand.max_by(&:rank).rank }.max[1]
     end
   end
 end
