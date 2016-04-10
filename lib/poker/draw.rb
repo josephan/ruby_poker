@@ -5,9 +5,10 @@ module Poker
   class Draw
     attr_reader :winners
 
-    def initialize(players, options={})
+    def initialize(players, communal_cards, options={})
       @players = players
       @winner = players[0] if players.size == 1
+      @communal_cards = communal_cards
     end
 
     def royal_flush

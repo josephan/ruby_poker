@@ -3,6 +3,8 @@ require_relative 'poker/round'
 
 number_of_players, rounds_of_poker, file_name = ARGV
 
+puts "Exporting to CSV..."
+
 headers = [
   "Round #", "Winning Combination", "Communal Cards", "Winning Hand"
 ]
@@ -10,6 +12,7 @@ number_of_players.to_i.times do |i|
   headers << "Player #{i + 1}"
 end
 
+print "Completed round: "
 CSV.open(file_name + ".csv", "wb") do |csv|
   csv << headers
   rounds_of_poker.to_i.times do |i|
@@ -24,5 +27,8 @@ CSV.open(file_name + ".csv", "wb") do |csv|
       row << player.hand.map(&:format).join(", ")
     end
     csv << row
+    print "#{i}, "
   end
 end
+
+puts "\nSimulation complete!"
